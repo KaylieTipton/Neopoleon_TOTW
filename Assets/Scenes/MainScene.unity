@@ -1495,7 +1495,7 @@ MonoBehaviour:
         m_CallState: 2
   autoStart: 0
   autoRestart: 0
-  countDownTime: 0.2
+  countDownTime: 0.3
   timeScale: 1
 --- !u!1 &1717661348
 GameObject:
