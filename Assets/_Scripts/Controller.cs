@@ -31,9 +31,13 @@ public class Controller : MonoBehaviour
     public Sprite rightPunchSprite0;
     public Sprite leftPunchSprite0;
 
-    /*public Sprite idleSprite1;
+    public Sprite idleSprite1;
     public Sprite leftPunchSprite1;
-    public Sprite rightPunchSprite1;*/
+    public Sprite rightPunchSprite1;
+
+    public Sprite idleSprite2;
+    public Sprite leftPunchSprite2;
+    public Sprite rightPunchSprite2;
 
     //Eye Sprites
     public Image eyeSourceImage;
@@ -84,7 +88,6 @@ public class Controller : MonoBehaviour
         SetMaxPrestigeProgress();
 
         prestigeTimer.StartTimer(prestigeTimer.countDownTime, prestigeTimer.autoRestart);
-        prestigeTimer.countDownTime = prestigeTimer.countDownTime;
     }
 
     void Update()

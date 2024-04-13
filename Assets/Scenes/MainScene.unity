@@ -2962,10 +2962,10 @@ RectTransform:
   - {fileID: 2062104869}
   - {fileID: 191378224}
   - {fileID: 739244560}
+  - {fileID: 1387145154}
   - {fileID: 347397752}
   - {fileID: 655196557}
   - {fileID: 767844185}
-  - {fileID: 1387145154}
   m_Father: {fileID: 862752356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4542,6 +4542,12 @@ MonoBehaviour:
   idleSprite0: {fileID: 21300000, guid: a43a27da07caee4458feed881ef2fafb, type: 3}
   rightPunchSprite0: {fileID: 21300000, guid: f15667a83219e6a49b0893e1c5a48f91, type: 3}
   leftPunchSprite0: {fileID: 21300000, guid: 49f44f80005bc8b4eb22d03fd76b10d2, type: 3}
+  idleSprite1: {fileID: 21300000, guid: bd5a2cbaccee70c4fbc5a4852d45453e, type: 3}
+  leftPunchSprite1: {fileID: 21300000, guid: aae5851c840a0304a9a0434bc0f23b88, type: 3}
+  rightPunchSprite1: {fileID: 21300000, guid: 2193866a0f8f0f945ac62ef6fd31c6b2, type: 3}
+  idleSprite2: {fileID: 21300000, guid: 5ae91d5f46f7e6d4bacec14d0a5deab7, type: 3}
+  leftPunchSprite2: {fileID: 21300000, guid: b741f856001cad040bf4f864e04c001e, type: 3}
+  rightPunchSprite2: {fileID: 21300000, guid: d69da51648823ce43b2666e89d8261dd, type: 3}
   eyeSourceImage: {fileID: 521408323}
   eyeStage1: {fileID: 21300000, guid: 4e0546913fadcce47a150ea631ebdef5, type: 3}
   eyeStage2: {fileID: 21300000, guid: addb1b3a22298ed4dbe24b0652f88de6, type: 3}

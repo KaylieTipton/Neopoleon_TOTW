@@ -96,6 +96,11 @@ public class UpgradesManager : MonoBehaviour
                 if (_upgradeID == -1)
                     for (int i = 0; i < clickUpgrades.Count; i++) UpdateUI(clickUpgrades, data.clickUpgradeLevel, clickUpgradeName, clickUpgradeTitle, i);
                 else UpdateUI(clickUpgrades, data.clickUpgradeLevel, clickUpgradeName, clickUpgradeTitle, _upgradeID);
+                for (int i = 0; i < clickUpgrades.Count; i++)
+                {
+                    total += data.clickUpgradeLevel[i];
+                }
+                CheckWorkoutLevel(total);
                 break;
             case "production":
                 if (_upgradeID == -1)
@@ -106,6 +111,7 @@ public class UpgradesManager : MonoBehaviour
                     total += data.productionUpgradeLevel[i];
                 }
                 CheckMeditationLevel(total);
+                Debug.Log("Meditation: " + total);
                 break;
         }
 
@@ -179,7 +185,34 @@ public class UpgradesManager : MonoBehaviour
                 Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage5;
                 break;
         }
-        
+    }
+
+    public void CheckWorkoutLevel(int _workoutLevel)
+    {
+        switch (_workoutLevel)
+        {
+            case 1:
+                Controller.instance.currentIdleSprite = Controller.instance.idleSprite1;
+                Controller.instance.currentLeftPunch = Controller.instance.leftPunchSprite1;
+                Controller.instance.currentRightPunch = Controller.instance.rightPunchSprite1;
+                Controller.instance.sourceImage.sprite = Controller.instance.idleSprite1;
+                break;
+            case 2:
+                Controller.instance.currentIdleSprite = Controller.instance.idleSprite2;
+                Controller.instance.currentLeftPunch = Controller.instance.leftPunchSprite2;
+                Controller.instance.currentRightPunch = Controller.instance.rightPunchSprite2;
+                Controller.instance.sourceImage.sprite = Controller.instance.idleSprite2;
+                break;
+            /*case 15:
+                Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage3;
+                break;
+            case 20:
+                Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage4;
+                break;
+            case 25:
+                Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage5;
+                break;*/
+        }
     }
 
 
