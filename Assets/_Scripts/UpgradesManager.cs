@@ -26,8 +26,8 @@ public class UpgradesManager : MonoBehaviour
 
     public void UpdateClickUpgradeUI()
     {
-        clickUpgrade.levelText.text = Controller.instance.data.clickUpgradeLevel + " Workout Power";
-        clickUpgrade.costText.text = "Cost: " + Cost() + " Power Level";
+        clickUpgrade.levelText.text = Controller.instance.data.clickUpgradeLevel + " Workout Power Lvl";
+        clickUpgrade.costText.text = "Cost: " + Cost() + " Power";
         clickUpgrade.nameText.text = "+1 " + clickUpgradeName;
     }
 

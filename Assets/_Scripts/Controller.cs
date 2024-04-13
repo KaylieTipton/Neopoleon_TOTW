@@ -40,7 +40,7 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        coinsText.text = "$" + WalletManager.instance.Coin;
+        coinsText.text = WalletManager.instance.Coin + " Power";
     }
 
     public void SetSourceImage()
