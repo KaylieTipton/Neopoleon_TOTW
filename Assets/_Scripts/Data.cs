@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Data
 {
-    public int clickUpgradeLevel;
+    public List<int> clickUpgradeLevel;
     public Data()
     {
-        clickUpgradeLevel = 0;
+        clickUpgradeLevel = Methods.CreateList<int>(capacity: 3);
     }
 }

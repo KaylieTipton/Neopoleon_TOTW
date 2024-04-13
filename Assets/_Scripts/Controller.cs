@@ -29,7 +29,13 @@ public class Controller : MonoBehaviour
     
     public int ClickPower()
     {
-        return 1 + data.clickUpgradeLevel;
+        int total = 1;
+        for(int i = 0; i < data.clickUpgradeLevel.Count; i++)
+        {
+            total += (int)UpgradesManager.instance.clickUpgradesBasePower[i] * data.clickUpgradeLevel[i];
+        }
+
+        return total;
     }
     void Start()
     {
