@@ -601,6 +601,7 @@ Transform:
   - {fileID: 1114619496}
   - {fileID: 1678977356}
   - {fileID: 394697261}
+  - {fileID: 350800669}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &347397751
@@ -642,6 +643,57 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 255, y: 80}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &350800668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 350800669}
+  - component: {fileID: 350800670}
+  m_Layer: 0
+  m_Name: PrestigeTimer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &350800669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350800668}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 321189465}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &350800670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350800668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad54517dc19258185960ef6d2f3a1b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeout:
+    m_PersistentCalls:
+      m_Calls: []
+  autoStart: 0
+  autoRestart: 0
+  countDownTime: 60
+  timeScale: 1
 --- !u!1 &378644633
 GameObject:
   m_ObjectHideFlags: 0
@@ -2471,7 +2523,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.000011444092, y: 15.108498}
+  m_AnchoredPosition: {x: 0.000011444092, y: 15.108604}
   m_SizeDelta: {x: 30.2171, y: 50.2171}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &988947923
@@ -3364,7 +3416,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3378,7 +3430,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 988947923}
   m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 988947922}
@@ -4481,7 +4533,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteTimer: {fileID: 1678977357}
-  time: 0
   coinsText: {fileID: 495804285}
   perSecondText: {fileID: 451463926}
   currentIdleSprite: {fileID: 0}
@@ -4497,6 +4548,8 @@ MonoBehaviour:
   eyeStage3: {fileID: 21300000, guid: 35104e80855474c4e926895a087c433b, type: 3}
   eyeStage4: {fileID: 21300000, guid: 941205a3518e76345b85750017d2a3b9, type: 3}
   eyeStage5: {fileID: 21300000, guid: 527514ab22c164147a4ad6f75a6e9046, type: 3}
+  prestigeBar: {fileID: 1387145155}
+  prestigeTimer: {fileID: 350800670}
 --- !u!4 &2073941444
 Transform:
   m_ObjectHideFlags: 0

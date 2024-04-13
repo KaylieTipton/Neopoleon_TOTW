@@ -15,12 +15,13 @@ public class Controller : MonoBehaviour
 
     public Data data;
 
+    //Neo's Timer
     public Timer spriteTimer;
-    public float time;
 
     public TMP_Text coinsText;
     public TMP_Text perSecondText;
 
+    //Neo's Sprites
     public Sprite currentIdleSprite;
     public Sprite currentLeftPunch;
     public Sprite currentRightPunch;
@@ -34,6 +35,7 @@ public class Controller : MonoBehaviour
     public Sprite leftPunchSprite1;
     public Sprite rightPunchSprite1;*/
 
+    //Eye Sprites
     public Image eyeSourceImage;
     public Sprite eyeStage1;
     public Sprite eyeStage2;
@@ -42,6 +44,10 @@ public class Controller : MonoBehaviour
     public Sprite eyeStage5;
 
     private bool isRightPunch = true;
+
+    //Prestige Timer
+    public Slider prestigeBar;
+    public Timer prestigeTimer;
     
     public double ClickPower()
     {
@@ -73,6 +79,12 @@ public class Controller : MonoBehaviour
         currentRightPunch = rightPunchSprite0;
 
         sourceImage.sprite = currentIdleSprite;
+
+        SetSliderProgress();
+        SetMaxPrestigeProgress();
+
+        prestigeTimer.StartTimer(prestigeTimer.countDownTime, prestigeTimer.autoRestart);
+        prestigeTimer.countDownTime = prestigeTimer.countDownTime;
     }
 
     void Update()
@@ -83,6 +95,8 @@ public class Controller : MonoBehaviour
 
         data.coins = coinsPerSecond() * Time.deltaTime;
         Wallet.instance.Earn(data.coins);
+
+        SetSliderProgress();
     }
 
     public void SetSourceImage()
@@ -91,7 +105,7 @@ public class Controller : MonoBehaviour
     }
     public void GenerateCoins()
     {
-        spriteTimer.StartTimer(time, spriteTimer.autoRestart);
+        spriteTimer.StartTimer(spriteTimer.countDownTime, spriteTimer.autoRestart);
         Wallet.instance.Earn(ClickPower());
         if(isRightPunch)
         {
@@ -104,5 +118,16 @@ public class Controller : MonoBehaviour
             isRightPunch = true; 
         }
 
+    }
+
+    public void SetSliderProgress()
+    {
+        prestigeBar.value = prestigeTimer.countDownTime - prestigeTimer.timeLeft;
+    }
+
+    public void SetMaxPrestigeProgress()
+    {
+        prestigeBar.maxValue = prestigeTimer.countDownTime;
+        prestigeBar.value = prestigeTimer.timeLeft;
     }
 }
