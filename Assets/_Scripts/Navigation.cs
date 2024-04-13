@@ -12,6 +12,9 @@ public class Navigation : MonoBehaviour
     public TMP_Text clickUpgradeTitleText;
     public TMP_Text productionUpgradeTitleText;
 
+    public GameObject homeScreen;
+    public GameObject settingsScreen;
+
     public void SwitchUpgrades(string location)
     {
         UpgradesManager.instance.clickUpgradeScroll.gameObject.SetActive(false);
@@ -37,5 +40,23 @@ public class Navigation : MonoBehaviour
 
         }
     }
+
+    public void Navigate(string location)
+    {
+        homeScreen.SetActive(false);
+        settingsScreen.SetActive(false);
+
+        switch (location)
+        {
+            case "Home":
+                homeScreen.SetActive(true);
+                break;
+            case "Settings":
+                settingsScreen.SetActive(true);
+                break;
+
+
+        }
+    }    
 
 }
