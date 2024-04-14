@@ -58,21 +58,32 @@ public class Controller : MonoBehaviour
         double total = 1;
         for(int i = 0; i < data.clickUpgradeLevel.Count; i++)
         {
-            total += UpgradesManager.instance.clickUpgradesBasePower[i] * data.clickUpgradeLevel[i];
+            total += UpgradesManager.instance.upgradeHandlers[0].upgradesBasePower[i] * data.clickUpgradeLevel[i];
         }
 
         return total;
     }
 
-    public double coinsPerSecond()
+    public double CoinsPerSecond()
     {
         double total = 0;
         for( int i = 0; i < data.productionUpgradeLevel.Count; i++)
         {
-            total += UpgradesManager.instance.productionUpgradesBasePower[i] * data.productionUpgradeLevel[i];
+            total += UpgradesManager.instance.upgradeHandlers[1].upgradesBasePower[i] * data.productionUpgradeLevel[i];
         }
         return total;
     }
+
+    public double Chronostasis()
+    {
+        double total = 0;
+        for (int i = 0; i < data.productionUpgradeLevel.Count; i++)
+        {
+            total += UpgradesManager.instance.upgradeHandlers[2].upgradesBasePower[i] * data.chronostasisUpgradeLevel[i];
+        }
+        return total;
+    }
+
     void Start()
     {
         data = new Data();
@@ -94,9 +105,9 @@ public class Controller : MonoBehaviour
     {
 
         coinsText.text = $"{Wallet.instance.Coin:F2} Power";
-        perSecondText.text = $"{coinsPerSecond():F2}/s";
+        perSecondText.text = $"{CoinsPerSecond():F2}/s";
 
-        data.coins = coinsPerSecond() * Time.deltaTime;
+        data.coins = CoinsPerSecond() * Time.deltaTime;
         Wallet.instance.Earn(data.coins);
 
         SetSliderProgress();
@@ -133,4 +144,5 @@ public class Controller : MonoBehaviour
         prestigeBar.maxValue = prestigeTimer.countDownTime;
         prestigeBar.value = prestigeTimer.timeLeft;
     }
+
 }

@@ -2,124 +2,139 @@ using SuperPupSystems.Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Xml.Schema;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UpgradesManager : MonoBehaviour
 {
     public static UpgradesManager instance;
     public void Awake() => instance = this;
 
-    public List<Upgrades> clickUpgrades;
-    public Upgrades clickUpgradePrefab;
-
-    public List<Upgrades> productionUpgrades;
-    public Upgrades productionUpgradePrefab;
-
-    public ScrollRect clickUpgradeScroll;
-    public GameObject clickUpgradesPanel;
-
-    public ScrollRect productionUpgradeScroll;
-    public GameObject productionUpgradesPanel;
-
-    public string[] clickUpgradeName;
-    public string[] productionUpgradeName;
-    public string clickUpgradeTitle;
-    public string productionUpgradeTitle;
-
-    public double[] clickUpgradeBaseCost;
-    public double[] clickUpgradeCostMult;
-    public double[] clickUpgradesBasePower;
-
-    public double[] productionUpgradeBaseCost;
-    public double[] productionUpgradeCostMult;
-    public double[] productionUpgradesBasePower;
+    public UpgradeHandler[] upgradeHandlers;
 
     public void StartUpgradeManager()
     {
         Methods.UpgradeCheck(Controller.instance.data.clickUpgradeLevel, 3);
+        Methods.UpgradeCheck(Controller.instance.data.productionUpgradeLevel, 3);
+        Methods.UpgradeCheck(Controller.instance.data.chronostasisUpgradeLevel, 3);
 
-        clickUpgradeName = new string[] 
+        upgradeHandlers[0].upgradeName = new string[] 
         { 
             "+1 WP Per Click", 
             "+5 WP Per Click", 
             "+10 WP Per Click" 
         };
-        productionUpgradeName = new string[] 
+        upgradeHandlers[1].upgradeName = new string[] 
         {
             "+1 Meditation/s",
             "+2 Meditation/s",
             "+10 Meditation/s"
         };
-
-        clickUpgradeTitle = "Workout Power";
-        productionUpgradeTitle = "Meditation Power";
-
-        clickUpgradeBaseCost = new double[] { 10, 50, 100 };
-        clickUpgradeCostMult= new double[] { 1.25, 1.35, 1.55 };
-        clickUpgradesBasePower = new double[] { 1, 5, 10 };
-
-        productionUpgradeBaseCost = new double[] { 25, 100, 1000 };
-        productionUpgradeCostMult = new double[] { 1.5, 1.75, 2 };
-        productionUpgradesBasePower = new double[] { 1, 2, 10 };
-
-        for (int i = 0; i <Controller.instance.data.clickUpgradeLevel.Count; i++)
+        upgradeHandlers[2].upgradeName = new string[]
         {
-            Upgrades upgrade = Instantiate(clickUpgradePrefab, clickUpgradesPanel.transform);
-            upgrade.upgradeID = i;
-            clickUpgrades.Add(upgrade);
-        }
+            "+30 Sec Slowdown to Meteor",
+            "+60 Sec Slowdown to Meteor",
+            "+90 Sec Slowdown to Meteor"
+        };
 
-        for (int i = 0; i < Controller.instance.data.productionUpgradeLevel.Count; i++)
-        {
-            Upgrades upgrade = Instantiate(productionUpgradePrefab, productionUpgradesPanel.transform);
-            upgrade.upgradeID = i;
-            productionUpgrades.Add(upgrade);
-        }
+        upgradeHandlers[0].upgradeTitle = "Workout Power";
+        upgradeHandlers[1].upgradeTitle = "Meditation Power";
+        upgradeHandlers[2].upgradeTitle = "Chronostasis";
 
-        clickUpgradeScroll.normalizedPosition = new Vector2(0, 0);
-        productionUpgradeScroll.normalizedPosition = new Vector2(0, 0);
+        //Workout
+        upgradeHandlers[0].upgradeBaseCost = new double[] { 10, 50, 100 };
+        upgradeHandlers[0].upgradeCostMult = new double[] { 1.25, 1.35, 1.55 };
+        upgradeHandlers[0].upgradesBasePower = new double[] { 1, 5, 10 };
+
+        //Meditation
+        upgradeHandlers[1].upgradeBaseCost = new double[] { 25, 100, 1000 };
+        upgradeHandlers[1].upgradeCostMult = new double[] { 1.5, 1.75, 2 };
+        upgradeHandlers[1].upgradesBasePower = new double[] { 1, 2, 10 };
+
+        //Chronostasis
+        upgradeHandlers[2].upgradeBaseCost = new double[] { 1, 10, 25 };
+        upgradeHandlers[2].upgradeCostMult = new double[] { 1.5, 1.75, 2 };
+        upgradeHandlers[2].upgradesBasePower = new double[] { 30, 60, 90 };
+
+        CreateUpgrades(Controller.instance.data.clickUpgradeLevel, 0);
+        CreateUpgrades(Controller.instance.data.productionUpgradeLevel, 1);
+        CreateUpgrades(Controller.instance.data.chronostasisUpgradeLevel, 2);
 
         UpdateUpgradeUI("click");
         UpdateUpgradeUI("production");
+        UpdateUpgradeUI("chronostasis");
 
+    }
+
+    void CreateUpgrades<T>(List<T> _level, int _index)
+    {
+        for (int i = 0; i < _level.Count; i++)
+        {
+            Upgrades upgrade = Instantiate(upgradeHandlers[_index].upgradePrefab, upgradeHandlers[_index].upgradesPanel.transform);
+            upgrade.upgradeID = i;
+            upgradeHandlers[_index].upgrades.Add(upgrade);
+        }
+        upgradeHandlers[_index].upgradeScroll.normalizedPosition = new Vector2(0, 0);
     }
 
     public void UpdateUpgradeUI(string _type, int _upgradeID = -1)
     {
         var data = Controller.instance.data;
-        int total = 0;
+        int totalWork = 0;
+        int totalMed = 0;
+        int totalChrono = 0;
         switch (_type)
         {
             case "click":
-                if (_upgradeID == -1)
-                    for (int i = 0; i < clickUpgrades.Count; i++) UpdateUI(clickUpgrades, data.clickUpgradeLevel, clickUpgradeName, clickUpgradeTitle, i);
-                else UpdateUI(clickUpgrades, data.clickUpgradeLevel, clickUpgradeName, clickUpgradeTitle, _upgradeID);
-                for (int i = 0; i < clickUpgrades.Count; i++)
+                UpdateAllUI(upgradeHandlers[0].upgrades, data.clickUpgradeLevel, upgradeHandlers[0].upgradeName, upgradeHandlers[0].upgradeTitle, 0);
+                for (int i = 0; i < upgradeHandlers[0].upgrades.Count; i++)
                 {
-                    total += data.clickUpgradeLevel[i];
+                    totalWork += data.clickUpgradeLevel[i];
                 }
-                CheckWorkoutLevel(total);
+                CheckWorkoutLevel(totalWork);
                 break;
             case "production":
-                if (_upgradeID == -1)
-                    for (int i = 0; i < productionUpgrades.Count; i++) UpdateUI(productionUpgrades, data.productionUpgradeLevel, productionUpgradeName, productionUpgradeTitle, i);
-                else UpdateUI(productionUpgrades, data.productionUpgradeLevel, productionUpgradeName, productionUpgradeTitle, _upgradeID);
-                for(int i = 0; i < productionUpgrades.Count; i++)
+                UpdateAllUI(upgradeHandlers[1].upgrades, data.productionUpgradeLevel, upgradeHandlers[1].upgradeName, upgradeHandlers[1].upgradeTitle, 1);
+                for (int i = 0; i < upgradeHandlers[1].upgrades.Count; i++)
                 {
-                    total += data.productionUpgradeLevel[i];
+                    totalMed += data.productionUpgradeLevel[i];
                 }
-                CheckMeditationLevel(total);
-                Debug.Log("Meditation: " + total);
+                CheckMeditationLevel(totalMed);
+                break;
+            case "chronostasis":
+                UpdateAllUI(upgradeHandlers[2].upgrades, data.chronostasisUpgradeLevel, upgradeHandlers[2].upgradeName, upgradeHandlers[2].upgradeTitle, 2);
+                for (int i = 0; i < upgradeHandlers[2].upgrades.Count; i++)
+                {
+                    totalChrono += data.chronostasisUpgradeLevel[i];
+                }
+                //CheckChronoLevel(totalChrono);
                 break;
         }
 
-        void UpdateUI(List<Upgrades> _upgrades, List<int> upgradeLevels, string[] upgradeNames, string upgradeTitle, int _ID)
+        void UpdateAllUI(List<Upgrades> _upgrades, List<int> upgradeLevels, string[] upgradeNames, string upgradeTitle, int _index)
         {
-            _upgrades[_ID].levelText.text = upgradeLevels[_ID] + " " + upgradeTitle;
-            _upgrades[_ID].costText.text = $"Cost: {UpgradeCost(_type, _ID):F2} Power";
-            _upgrades[_ID].nameText.text = upgradeNames[_ID];
+            if (_upgradeID == -1)
+                for (int i = 0; i < upgradeHandlers[_index].upgrades.Count; i++)
+                {
+                    UpdateUI(i);
+                }
+            else UpdateUI(_upgradeID);
+            
+
+            void UpdateUI(int _ID)
+            {
+                _upgrades[_ID].levelText.text = upgradeLevels[_ID] + " " + upgradeTitle;
+                if(_index == 2)
+                    _upgrades[_ID].costText.text = $"Cost: {UpgradeCost(_type, _ID):F2} Time Shards";
+                else
+                    _upgrades[_ID].costText.text = $"Cost: {UpgradeCost(_type, _ID):F2} Power";
+                _upgrades[_ID].nameText.text = upgradeNames[_ID];
+            }
+            
         }
         
     }
@@ -130,14 +145,20 @@ public class UpgradesManager : MonoBehaviour
         switch (_type)
         {
             case "click":
-                return clickUpgradeBaseCost[_upgradeID] * Math.Pow(clickUpgradeCostMult[_upgradeID], data.clickUpgradeLevel[_upgradeID]);
+                return UpgradeCost(0, data.clickUpgradeLevel, _upgradeID);
             case "production":
-                return productionUpgradeBaseCost[_upgradeID] * Math.Pow(productionUpgradeCostMult[_upgradeID], data.productionUpgradeLevel[_upgradeID]); ;
+                return UpgradeCost(1, data.productionUpgradeLevel, _upgradeID);
+            case "chronostasis":
+                return UpgradeCost(2, data.chronostasisUpgradeLevel, _upgradeID);
 
         }
 
-        return 0;
-        
+        return 0;   
+    }
+
+    private double UpgradeCost(int _index, List<int> _levels, int _upgradeID)
+    {
+        return upgradeHandlers[_index].upgradeBaseCost[_upgradeID] * Math.Pow(upgradeHandlers[_index].upgradeCostMult[_upgradeID], _levels[_upgradeID]);
     }
 
     public void BuyUpgrade(string _type, int _upgradeID)
@@ -149,10 +170,24 @@ public class UpgradesManager : MonoBehaviour
                 break;
             case "production": Buy(data.productionUpgradeLevel);
                 break;
+            case "chronostasis": BuyTimeShard(data.chronostasisUpgradeLevel);
+                Controller.instance.prestigeTimer.countDownTime = (float)Controller.instance.Chronostasis() + Controller.instance.prestigeTimer.timeLeft;
+                Controller.instance.prestigeTimer.AddTime((float)Controller.instance.Chronostasis());
+                Controller.instance.SetMaxPrestigeProgress();
+                break;
         
         
         }
-    
+        
+        void BuyTimeShard(List<int> upgradeLevels)
+        {
+            if(data.timeShard >= UpgradeCost(_type, _upgradeID))
+            {
+                data.timeShard -= UpgradeCost(_type, _upgradeID);
+                data.chronostasisUpgradeLevel[_upgradeID] += 1;
+            }
+            UpdateUpgradeUI(_type, _upgradeID);
+        }
         void Buy(List<int> upgradeLevels)
         {
             if (Wallet.instance.ICanAfford(UpgradeCost(_type, _upgradeID)))
@@ -213,6 +248,26 @@ public class UpgradesManager : MonoBehaviour
                 Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage5;
                 break;*/
         }
+    }
+
+    public int FindTotalUpgrades()
+    {
+        var data = Controller.instance.data;
+        int total = 0;
+        for (int i = 0; i < upgradeHandlers[0].upgrades.Count; i++)
+        {
+            total += data.clickUpgradeLevel[i];
+        }
+        for (int i = 0; i < upgradeHandlers[1].upgrades.Count; i++)
+        {
+            total += data.clickUpgradeLevel[i];
+        }
+        for (int i = 0; i < upgradeHandlers[2].upgrades.Count; i++)
+        {
+            total += data.clickUpgradeLevel[i];
+        }
+
+        return total;
     }
 
 

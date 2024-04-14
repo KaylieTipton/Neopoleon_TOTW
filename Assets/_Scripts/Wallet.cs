@@ -76,4 +76,9 @@ using UnityEngine.Events;
             earnEvent.Invoke(_amount);
             coinUpdatedEvent.Invoke(_amount, _coin);
         }
+
+        public void ResetCoin()
+        {
+            _coin = 0;
+        }
     }
