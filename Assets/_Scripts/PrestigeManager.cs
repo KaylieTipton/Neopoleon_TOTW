@@ -31,6 +31,7 @@ public class PrestigeManager : MonoBehaviour
     public void TogglePrestigeInfoBox()
     {
         PrestigeInfoBox.SetActive(!PrestigeInfoBox.activeSelf);
+        Controller.instance.data.timeShard += PrestigeGains();
         popupText.text = $"You have gained {Controller.instance.data.timeShard:F2} Time Shards and Time has reversed.";
        
     }
@@ -38,7 +39,7 @@ public class PrestigeManager : MonoBehaviour
     public void Prestige()
     {
         var data = Controller.instance.data;
-        data.timeShard += PrestigeGains();
+        
 
         data.coins = 0;
         Wallet.instance.ResetCoin();

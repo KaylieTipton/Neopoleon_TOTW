@@ -39,6 +39,14 @@ public class Controller : MonoBehaviour
     public Sprite leftPunchSprite2;
     public Sprite rightPunchSprite2;
 
+    public Sprite idleSprite3;
+    public Sprite leftPunchSprite3;
+    public Sprite rightPunchSprite3;
+
+    public Sprite idleSprite4;
+    public Sprite leftPunchSprite4;
+    public Sprite rightPunchSprite4;
+
     //Eye Sprites
     public Image eyeSourceImage;
     public Sprite eyeStage1;

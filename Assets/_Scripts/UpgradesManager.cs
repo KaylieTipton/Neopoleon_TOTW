@@ -16,6 +16,12 @@ public class UpgradesManager : MonoBehaviour
 
     public UpgradeHandler[] upgradeHandlers;
 
+    bool medCheck = false;
+    bool workCheck = false;
+    bool chronoCheck = false;
+
+    public GameObject WinScreen;
+
     public void StartUpgradeManager()
     {
         Methods.UpgradeCheck(Controller.instance.data.clickUpgradeLevel, 3);
@@ -219,6 +225,9 @@ public class UpgradesManager : MonoBehaviour
             case 25:
                 Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage5;
                 break;
+            case 30:
+                medCheck = true;
+                break;
         }
     }
 
@@ -226,30 +235,49 @@ public class UpgradesManager : MonoBehaviour
     {
         switch (_workoutLevel)
         {
-            case 1:
+            case 7:
                 Controller.instance.currentIdleSprite = Controller.instance.idleSprite1;
                 Controller.instance.currentLeftPunch = Controller.instance.leftPunchSprite1;
                 Controller.instance.currentRightPunch = Controller.instance.rightPunchSprite1;
                 Controller.instance.sourceImage.sprite = Controller.instance.idleSprite1;
                 break;
-            case 2:
+            case 17:
                 Controller.instance.currentIdleSprite = Controller.instance.idleSprite2;
                 Controller.instance.currentLeftPunch = Controller.instance.leftPunchSprite2;
                 Controller.instance.currentRightPunch = Controller.instance.rightPunchSprite2;
                 Controller.instance.sourceImage.sprite = Controller.instance.idleSprite2;
                 break;
-            /*case 15:
-                Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage3;
+            case 21:
+                Controller.instance.currentIdleSprite = Controller.instance.idleSprite3;
+                Controller.instance.currentLeftPunch = Controller.instance.leftPunchSprite3;
+                Controller.instance.currentRightPunch = Controller.instance.rightPunchSprite3;
+                Controller.instance.sourceImage.sprite = Controller.instance.idleSprite3;
                 break;
-            case 20:
-                Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage4;
+            case 28:
+                Controller.instance.currentIdleSprite = Controller.instance.idleSprite4;
+                Controller.instance.currentLeftPunch = Controller.instance.leftPunchSprite4;
+                Controller.instance.currentRightPunch = Controller.instance.rightPunchSprite4;
+                Controller.instance.sourceImage.sprite = Controller.instance.idleSprite4;
                 break;
-            case 25:
-                Controller.instance.eyeSourceImage.sprite = Controller.instance.eyeStage5;
-                break;*/
+            case 30:
+                workCheck = true;
+                break;
         }
     }
 
+    public void CheckChronoLevel(int _chronoLevel)
+    {
+        if (_chronoLevel == 3)
+            chronoCheck = true;
+    }
+
+    private void Win()
+    {
+        if(medCheck && workCheck && chronoCheck)
+        {
+            WinScreen.SetActive(true);
+        }
+    }
     public int FindTotalUpgrades()
     {
         var data = Controller.instance.data;
