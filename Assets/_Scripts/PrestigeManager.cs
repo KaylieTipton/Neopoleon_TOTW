@@ -15,6 +15,8 @@ public class PrestigeManager : MonoBehaviour
     public TMP_Text popupText;
     public GameObject PrestigeInfoBox;
     public int prestigeCount;
+    public GameObject boom;
+    public Animator popUp;
     
     public double PrestigeGains()
     {
@@ -33,9 +35,13 @@ public class PrestigeManager : MonoBehaviour
         PrestigeInfoBox.SetActive(!PrestigeInfoBox.activeSelf);
         Controller.instance.data.timeShard += PrestigeGains();
         popupText.text = $"You have gained {Controller.instance.data.timeShard:F2} Time Shards and Time has reversed.";
-       
-    }
 
+    }
+    public void activateBoom()
+    {
+        boom.SetActive(true);
+        Controller.instance.aSource.PlayOneShot(Controller.instance.planetExplode);
+    }
     public void Prestige()
     {
         var data = Controller.instance.data;
@@ -59,7 +65,11 @@ public class PrestigeManager : MonoBehaviour
 
         prestigeCount++;
 
+        //popUp.SetTrigger("Continue");
         TogglePrestigeInfoBox();
+        Controller.instance.aSource.PlayOneShot(Controller.instance.timeReset);
+        boom.SetActive(false);
+
 
     }
 

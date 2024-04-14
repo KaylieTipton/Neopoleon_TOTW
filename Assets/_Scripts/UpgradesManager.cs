@@ -177,20 +177,22 @@ public class UpgradesManager : MonoBehaviour
             case "production": Buy(data.productionUpgradeLevel);
                 break;
             case "chronostasis": BuyTimeShard(data.chronostasisUpgradeLevel);
-                Controller.instance.prestigeTimer.countDownTime = (float)Controller.instance.Chronostasis() + Controller.instance.prestigeTimer.timeLeft;
-                Controller.instance.prestigeTimer.AddTime((float)Controller.instance.Chronostasis());
-                Controller.instance.SetMaxPrestigeProgress();
                 break;
         
         
         }
         
+
+
         void BuyTimeShard(List<int> upgradeLevels)
         {
             if(data.timeShard >= UpgradeCost(_type, _upgradeID))
             {
                 data.timeShard -= UpgradeCost(_type, _upgradeID);
                 data.chronostasisUpgradeLevel[_upgradeID] += 1;
+                Controller.instance.prestigeTimer.countDownTime = (float)Controller.instance.Chronostasis() + Controller.instance.prestigeTimer.timeLeft;
+                Controller.instance.prestigeTimer.AddTime((float)Controller.instance.Chronostasis());
+                Controller.instance.SetMaxPrestigeProgress();
             }
             UpdateUpgradeUI(_type, _upgradeID);
         }
@@ -200,7 +202,10 @@ public class UpgradesManager : MonoBehaviour
             {
                 Wallet.instance.Pay(UpgradeCost(_type, _upgradeID));
                 upgradeLevels[_upgradeID] += 1;
+                Controller.instance.aSource.PlayOneShot(Controller.instance.purchase);
             }
+            else
+                Controller.instance.aSource.PlayOneShot(Controller.instance.buttonPress);
             UpdateUpgradeUI(_type, _upgradeID);
         }
     

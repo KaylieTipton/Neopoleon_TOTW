@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using SuperPupSystems.Manager;
 using SuperPupSystems.Helper;
 using System;
+using UnityEngine.Animations;
+using UnityEngine.Timeline;
 
 public class Controller : MonoBehaviour
 {
@@ -61,6 +63,22 @@ public class Controller : MonoBehaviour
     //Prestige Timer
     public Slider prestigeBar;
     public Timer prestigeTimer;
+
+    public Animator meteor;
+
+    //Audio Clips
+    public AudioSource aSource;
+
+    public AudioClip punch;
+    public AudioClip buttonPress;
+    public AudioClip planetExplode;
+    public AudioClip timeReset;
+    public AudioClip purchase;
+
+    public AudioClip startOST;
+    public AudioClip mainOST;
+
+    public GameObject MainMenuPanel;
     
     public double ClickPower()
     {
@@ -107,7 +125,12 @@ public class Controller : MonoBehaviour
         SetSliderProgress();
         SetMaxPrestigeProgress();
 
-        prestigeTimer.StartTimer(prestigeTimer.countDownTime, prestigeTimer.autoRestart);
+        meteor.speed = 0.01f;
+        MainMenuPanel.SetActive(true);
+        //aSource.loop = true;
+        //aSource.PlayOneShot(startOST);
+
+
     }
 
     void Update()
@@ -120,8 +143,17 @@ public class Controller : MonoBehaviour
         Wallet.instance.Earn(data.coins);
 
         SetSliderProgress();
-    }
 
+        if (meteor.speed < 1.0f && meteor.speed > 0.01f)
+            meteor.speed -= Time.deltaTime / 25;
+    }
+    public void StartGame()
+    {
+        prestigeTimer.StartTimer(prestigeTimer.countDownTime, prestigeTimer.autoRestart);
+        MainMenuPanel.GetComponent<Animator>().SetTrigger("Start");
+        aSource.clip = mainOST;
+        aSource.Play();
+    }
     public void SetSourceImage()
     {
         sourceImage.sprite = currentIdleSprite;
@@ -140,6 +172,11 @@ public class Controller : MonoBehaviour
             sourceImage.sprite = currentLeftPunch;
             isRightPunch = true; 
         }
+
+        if(meteor.speed < 1)
+            meteor.speed += 0.01f;
+
+        aSource.PlayOneShot(punch);
 
     }
 
