@@ -49,6 +49,7 @@ public class Controller : MonoBehaviour
 
     //Eye Sprites
     public Image eyeSourceImage;
+    public Sprite defaultEye;
     public Sprite eyeStage1;
     public Sprite eyeStage2;
     public Sprite eyeStage3;

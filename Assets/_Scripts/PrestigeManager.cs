@@ -19,7 +19,7 @@ public class PrestigeManager : MonoBehaviour
     public double PrestigeGains()
     {
         
-        return Math.Sqrt(UpgradesManager.instance.FindTotalUpgrades());
+        return Math.Sqrt(UpgradesManager.instance.FindTotalUpgrades() / (double)10);
         
     }
 
@@ -50,7 +50,11 @@ public class PrestigeManager : MonoBehaviour
         UpgradesManager.instance.UpdateUpgradeUI("click");
         UpgradesManager.instance.UpdateUpgradeUI("production");
 
-        
+        Controller.instance.currentIdleSprite = Controller.instance.idleSprite0;
+        Controller.instance.currentLeftPunch = Controller.instance.rightPunchSprite0;
+        Controller.instance.currentRightPunch = Controller.instance.leftPunchSprite0;
+        Controller.instance.eyeSourceImage.sprite = Controller.instance.defaultEye;
+
         Controller.instance.prestigeTimer.StartTimer(Controller.instance.prestigeTimer.countDownTime, Controller.instance.prestigeTimer.autoRestart);
 
         prestigeCount++;
