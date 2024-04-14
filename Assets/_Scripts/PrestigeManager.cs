@@ -61,9 +61,15 @@ public class PrestigeManager : MonoBehaviour
         Controller.instance.currentRightPunch = Controller.instance.leftPunchSprite0;
         Controller.instance.eyeSourceImage.sprite = Controller.instance.defaultEye;
 
+        Controller.instance.sourceImage.sprite = Controller.instance.idleSprite0;
+
         Controller.instance.prestigeTimer.StartTimer(Controller.instance.prestigeTimer.countDownTime, Controller.instance.prestigeTimer.autoRestart);
 
         prestigeCount++;
+
+        UpgradesManager.instance.medCheck = false;
+        UpgradesManager.instance.workCheck = false;
+        UpgradesManager.instance.chronoCheck = false;
 
         //popUp.SetTrigger("Continue");
         TogglePrestigeInfoBox();

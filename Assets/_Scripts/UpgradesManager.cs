@@ -16,9 +16,9 @@ public class UpgradesManager : MonoBehaviour
 
     public UpgradeHandler[] upgradeHandlers;
 
-    bool medCheck = false;
-    bool workCheck = false;
-    bool chronoCheck = false;
+    public bool medCheck = false;
+    public bool workCheck = false;
+    public bool chronoCheck = false;
 
     public GameObject WinScreen;
 
@@ -117,7 +117,7 @@ public class UpgradesManager : MonoBehaviour
                 {
                     totalChrono += data.chronostasisUpgradeLevel[i];
                 }
-                //CheckChronoLevel(totalChrono);
+                CheckChronoLevel(totalChrono);
                 break;
         }
 
@@ -272,11 +272,11 @@ public class UpgradesManager : MonoBehaviour
 
     public void CheckChronoLevel(int _chronoLevel)
     {
-        if (_chronoLevel == 3)
+        if (_chronoLevel >= 3)
             chronoCheck = true;
     }
 
-    private void Win()
+    public void Win()
     {
         if(medCheck && workCheck && chronoCheck)
         {

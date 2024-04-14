@@ -142,10 +142,12 @@ public class Controller : MonoBehaviour
         data.coins = CoinsPerSecond() * Time.deltaTime;
         Wallet.instance.Earn(data.coins);
 
+        UpgradesManager.instance.Win();
+
         SetSliderProgress();
 
         if (meteor.speed < 1.0f && meteor.speed > 0.01f)
-            meteor.speed -= Time.deltaTime / 25;
+            meteor.speed -= Time.deltaTime / 10;
     }
     public void StartGame()
     {
